@@ -24,7 +24,7 @@ inputs:
   file-to-use:
     description: 'test'
     required: false
-    default: 'README.md'
+    default: 'profiles.md'
 runs:
   using: 'node12'
   main: 'dist/index.js'
