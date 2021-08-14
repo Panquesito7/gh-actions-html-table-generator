@@ -43,8 +43,7 @@ const generateRow = (columns, row) => {
             repo: process.env.GITHUB_REPOSITORY.split('/')[1],
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
-            section: 'data-section',
-            path: "profiles.md",
+            path: core.getInput('file-to-use'));
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
