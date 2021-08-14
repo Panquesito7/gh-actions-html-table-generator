@@ -38,12 +38,13 @@ const generateRow = (columns, row) => {
         const content = chunk(json, columns).map((row) => generateRow(columns, row));
         const table = `<table width="100%">${content.join('')}</table>`;
 
-        await "profiles.md".updateSection(table, {
+        await readmeBox.updateSection(table, {
             owner: process.env.GITHUB_REPOSITORY.split('/')[0],
             repo: process.env.GITHUB_REPOSITORY.split('/')[1],
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
             section: 'data-section',
+            path: "profiles.md",
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
