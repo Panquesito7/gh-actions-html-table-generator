@@ -5573,10 +5573,11 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/profiles.md?ref=:ref', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/:file?ref=:ref', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch,
+        file: path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'))
       })).then(function (_ref2) {
         var data = _ref2.data;
         // The API returns the blob as base64 encoded, we need to decode it
@@ -5601,7 +5602,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || 'profiles.md',
+        path: opts.path || path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use')),
         message: opts.message || 'Updating the `profiles.md` file',
         sha: opts.sha,
         branch: opts.branch || 'master'
