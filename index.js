@@ -33,6 +33,7 @@ const generateRow = (columns, row) => {
     const columns = core.getInput('columns');
     const data = fs.readFileSync(filePath, 'utf8');
     const json = JSON.parse(data);
+    const path2 = path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
 
     try {
         const content = chunk(json, columns).map((row) => generateRow(columns, row));
@@ -43,7 +44,7 @@ const generateRow = (columns, row) => {
             repo: process.env.GITHUB_REPOSITORY.split('/')[1],
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
-            path: path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
+            path: path2
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
