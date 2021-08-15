@@ -5596,7 +5596,7 @@ var ReadmeBox = /*#__PURE__*/function () {
   _proto.updateReadme = function updateReadme(opts) {
     try {
       var _this4 = this;
-      const path_to_use = core.getInput('file-to-use');
+      const path_to_use = core.getInput('json-file-path');
 
       return Promise.resolve(_this4.request('PUT /repos/:owner/:repo/contents/:path', {
         owner: _this4.owner,
