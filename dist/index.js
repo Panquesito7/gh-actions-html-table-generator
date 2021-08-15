@@ -2993,6 +2993,7 @@ const Endpoints = {
     getPullRequestReviewProtection: ["GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"],
     getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
     getReadme: ["GET /repos/{owner}/{repo}/readme"],
+    getFile: ["GET /repos/{owner}/{repo}/{file}"],
     getRelease: ["GET /repos/{owner}/{repo}/releases/{release_id}"],
     getReleaseAsset: ["GET /repos/{owner}/{repo}/releases/assets/{asset_id}"],
     getReleaseByTag: ["GET /repos/{owner}/{repo}/releases/tags/{tag}"],
@@ -5572,7 +5573,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/readme', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/profiles.md', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch
@@ -5600,7 +5601,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use')),
+        path: opts.path || 'profiles.md',
         message: opts.message || 'Updating the `profiles.md` file',
         sha: opts.sha,
         branch: opts.branch || 'master'
