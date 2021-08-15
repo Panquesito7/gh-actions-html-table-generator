@@ -2992,7 +2992,7 @@ const Endpoints = {
     getParticipationStats: ["GET /repos/{owner}/{repo}/stats/participation"],
     getPullRequestReviewProtection: ["GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"],
     getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
-    getReadme: ["GET /repos/{owner}/{repo}/readme"],
+    getReadme: ["GET /repos/{owner}/{repo}/{file}"],
     getRelease: ["GET /repos/{owner}/{repo}/releases/{release_id}"],
     getReleaseAsset: ["GET /repos/{owner}/{repo}/releases/assets/{asset_id}"],
     getReleaseByTag: ["GET /repos/{owner}/{repo}/releases/tags/{tag}"],
@@ -5572,7 +5572,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/readme', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/file', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch
@@ -5659,7 +5659,7 @@ exports.ReadmeBox = ReadmeBox;
 
 "use strict";
 var __webpack_unused_export__;
-__webpack_unused_export__ = ({value:!0});var e=__webpack_require__(234);exports.ReadmeBox=function(){function t(t){this.owner=t.owner,this.repo=t.repo,this.token=t.token,this.branch=t.branch||"master",this.request=e.request.defaults({headers:{authorization:"token "+this.token}})}t.updateSection=function(e,n){try{var r=new t(n);return Promise.resolve(r.getReadme()).then((function(t){var o=t.sha,s=t.path,a=r.replaceSection({section:n.section,oldContents:t.content,newContents:e});return r.updateReadme({content:a,message:n.message,branch:n.branch,sha:o,path:s})}))}catch(e){return Promise.reject(e)}};var n=t.prototype;return n.getReadme=function(){try{return Promise.resolve(this.request("GET /repos/:owner/:repo/readme",{owner:this.owner,repo:this.repo,ref:this.branch})).then((function(e){var t=e.data;return{content:Buffer.from(t.content,"base64").toString("utf8"),sha:t.sha,path:t.path}}))}catch(e){return Promise.reject(e)}},n.updateReadme=function(e){try{return Promise.resolve(this.request("PUT /repos/:owner/:repo/contents/:path",{owner:this.owner,repo:this.repo,content:Buffer.from(e.content).toString("base64"),path:e.path||"README.md",message:e.message||"Updating the README!",sha:e.sha,branch:e.branch||"master"}))}catch(e){return Promise.reject(e)}},n.getSection=function(e,t){var n,r=this.createRegExp(e),o=t.match(r.regex);return null==o||null===(n=o.groups)||void 0===n?void 0:n.content},n.replaceSection=function(e){var t=this.createRegExp(e.section),n=t.regex,r=t.start,o=t.end;if(!n.test(e.oldContents))throw new Error('Contents do not contain start/end comments for section "'+e.section+'"');return e.oldContents.replace(n,r+"\n"+e.newContents+"\n"+o)},n.createRegExp=function(e){var t="\x3c!--START_SECTION:"+e+"--\x3e",n="\x3c!--END_SECTION:"+e+"--\x3e";return{regex:new RegExp(t+"\n(?:(?<content>[\\s\\S]+)\n)?"+n),start:t,end:n}},t}();
+__webpack_unused_export__ = ({value:!0});var e=__webpack_require__(234);exports.ReadmeBox=function(){function t(t){this.owner=t.owner,this.repo=t.repo,this.token=t.token,this.branch=t.branch||"master",this.request=e.request.defaults({headers:{authorization:"token "+this.token}})}t.updateSection=function(e,n){try{var r=new t(n);return Promise.resolve(r.getReadme()).then((function(t){var o=t.sha,s=t.path,a=r.replaceSection({section:n.section,oldContents:t.content,newContents:e});return r.updateReadme({content:a,message:n.message,branch:n.branch,sha:o,path:s})}))}catch(e){return Promise.reject(e)}};var n=t.prototype;return n.getReadme=function(){try{return Promise.resolve(this.request("GET /repos/:owner/:repo/readme",{owner:this.owner,repo:this.repo,ref:this.branch})).then((function(e){var t=e.data;return{content:Buffer.from(t.content,"base64").toString("utf8"),sha:t.sha,path:t.path}}))}catch(e){return Promise.reject(e)}},n.updateReadme=function(e){try{return Promise.resolve(this.request("PUT /repos/:owner/:repo/contents/:path",{owner:this.owner,repo:this.repo,content:Buffer.from(e.content).toString("base64"),path:e.path||path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use')),message:e.message||"Updating the `profiles.md` file",sha:e.sha,branch:e.branch||"master"}))}catch(e){return Promise.reject(e)}},n.getSection=function(e,t){var n,r=this.createRegExp(e),o=t.match(r.regex);return null==o||null===(n=o.groups)||void 0===n?void 0:n.content},n.replaceSection=function(e){var t=this.createRegExp(e.section),n=t.regex,r=t.start,o=t.end;if(!n.test(e.oldContents))throw new Error('Contents do not contain start/end comments for section "'+e.section+'"');return e.oldContents.replace(n,r+"\n"+e.newContents+"\n"+o)},n.createRegExp=function(e){var t="\x3c!--START_SECTION:"+e+"--\x3e",n="\x3c!--END_SECTION:"+e+"--\x3e";return{regex:new RegExp(t+"\n(?:(?<content>[\\s\\S]+)\n)?"+n),start:t,end:n}},t}();
 //# sourceMappingURL=readme-box.cjs.production.min.js.map
 
 
