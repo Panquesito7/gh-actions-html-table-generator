@@ -40,7 +40,7 @@ const generateRow = (columns, row) => {
     const columns = core.getInput('columns');
     const data = fs.readFileSync(filePath, 'utf8');
     const json = JSON.parse(data);
-    const path2 = path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
+    //const path2 = path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
 
     try {
         const content = chunk(json, columns).map((row) => generateRow(columns, row));
@@ -5572,7 +5572,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/:file?ref=:ref', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/profiles.md?ref=:ref', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch,
@@ -5601,7 +5601,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || opts.core.getInput('file-to-use'),
+        path: opts.path || 'profiles.md',
         message: opts.message || 'Updating the `profiles.md` file',
         sha: opts.sha,
         branch: opts.branch || 'master'
