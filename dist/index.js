@@ -5573,7 +5573,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/blob/:ref/profiles.md', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/profiles.md?ref=:ref', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch,
