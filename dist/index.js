@@ -5531,6 +5531,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     this.repo = opts.repo;
     this.token = opts.token;
     this.branch = opts.branch || 'master';
+    this.path = opts.path || 'profiles.md';
     this.request = request.request.defaults({
       headers: {
         authorization: "token " + this.token
