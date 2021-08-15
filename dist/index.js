@@ -5,7 +5,7 @@ module.exports =
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-const core = require('@actions/core');
+const core = __webpack_require__(186);
 const github = __webpack_require__(438);
 const fs = __webpack_require__(747);
 const path = __webpack_require__(622);
@@ -5603,7 +5603,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
         path: opts.path || 'profiles.md',
-        message: opts.message || `Updating the \`${path_to_use}\`\ file`,
+        message: opts.message || 'Updating the `profiles.md` file',//`Updating the \`${path_to_use}\`\ file`,
         sha: opts.sha,
         branch: opts.branch || 'master'
       }));
