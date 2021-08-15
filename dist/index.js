@@ -5573,11 +5573,10 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/:blob/:ref/profiles.md', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/blob/:ref/profiles.md', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch,
-        blob: _this2.blob,
       })).then(function (_ref2) {
         var data = _ref2.data;
         // The API returns the blob as base64 encoded, we need to decode it
