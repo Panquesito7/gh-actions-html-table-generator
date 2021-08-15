@@ -5,7 +5,7 @@ module.exports =
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-const core = __webpack_require__(186);
+const core = require('@actions/core');
 const github = __webpack_require__(438);
 const fs = __webpack_require__(747);
 const path = __webpack_require__(622);

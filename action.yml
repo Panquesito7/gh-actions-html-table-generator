@@ -22,7 +22,7 @@ inputs:
     description: 'array of object field names from your json objects'
     required: true
   file-to-use:
-    description: 'test'
+    description: 'file to push the changes to'
     required: false
     default: 'README.md'
 runs:
