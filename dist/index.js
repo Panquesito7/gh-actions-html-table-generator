@@ -52,7 +52,7 @@ const generateRow = (columns, row) => {
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
             section: 'data-section',
-            path: path2,
+            //path: path2,
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
@@ -2993,7 +2993,6 @@ const Endpoints = {
     getPullRequestReviewProtection: ["GET /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"],
     getPunchCardStats: ["GET /repos/{owner}/{repo}/stats/punch_card"],
     getReadme: ["GET /repos/{owner}/{repo}/readme"],
-    getFile: ["GET /repos/{owner}/{repo}/{blob}/{branch}/{file}"],
     getRelease: ["GET /repos/{owner}/{repo}/releases/{release_id}"],
     getReleaseAsset: ["GET /repos/{owner}/{repo}/releases/assets/{asset_id}"],
     getReleaseByTag: ["GET /repos/{owner}/{repo}/releases/tags/{tag}"],
@@ -5602,7 +5601,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || core.getInput('file-to-use'),
+        path: opts.path || opts.core.getInput('file-to-use'),
         message: opts.message || 'Updating the `profiles.md` file',
         sha: opts.sha,
         branch: opts.branch || 'master'
