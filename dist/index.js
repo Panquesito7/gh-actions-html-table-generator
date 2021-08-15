@@ -40,6 +40,7 @@ const generateRow = (columns, row) => {
     const columns = core.getInput('columns');
     const data = fs.readFileSync(filePath, 'utf8');
     const json = JSON.parse(data);
+    const path = path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
 
     try {
         const content = chunk(json, columns).map((row) => generateRow(columns, row));
@@ -51,6 +52,7 @@ const generateRow = (columns, row) => {
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
             section: 'data-section',
+            path: path,
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
@@ -5598,8 +5600,8 @@ var ReadmeBox = /*#__PURE__*/function () {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || 'README.md',
-        message: opts.message || 'Updating the README!',
+        path: opts.path || path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use')),
+        message: opts.message || 'Updating the `profiles.md` file',
         sha: opts.sha,
         branch: opts.branch || 'master'
       }));
