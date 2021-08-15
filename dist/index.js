@@ -5596,13 +5596,14 @@ var ReadmeBox = /*#__PURE__*/function () {
   _proto.updateReadme = function updateReadme(opts) {
     try {
       var _this4 = this;
+      const path_to_use = core.getInput('file-to-use');
 
       return Promise.resolve(_this4.request('PUT /repos/:owner/:repo/contents/:path', {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
         path: opts.path || 'profiles.md',
-        message: opts.message || 'Updating the `profiles.md` file',
+        message: opts.message || `Updating the \`${path_to_use}\`\ file`,
         sha: opts.sha,
         branch: opts.branch || 'master'
       }));
