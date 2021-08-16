@@ -5,12 +5,12 @@ module.exports =
 /***/ 932:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-const core = __webpack_require__(186);
-const github = __webpack_require__(438);
-const fs = __webpack_require__(747);
-const path = __webpack_require__(622);
-const readmeBox = __webpack_require__(64).ReadmeBox;
-const chunk = __webpack_require__(886);
+  const core = __webpack_require__(2186);
+  const github = __webpack_require__(5438);
+  const fs = __webpack_require__(5747);
+  const path = __webpack_require__(5622);
+  const readmeBox = __webpack_require__(4064).ReadmeBox;
+  const chunk = __webpack_require__(3886);
 
 const generateCell = (cell) => {
     const objectFieldNames = JSON.parse(core.getInput('object-field-names'));
@@ -40,7 +40,7 @@ const generateRow = (columns, row) => {
     const columns = core.getInput('columns');
     const data = fs.readFileSync(filePath, 'utf8');
     const json = JSON.parse(data);
-    const path2 = path.join(process.env.GITHUB_WORKSPACE, core.getInput('file-to-use'));
+    const fileToUsePath = core.getInput('file-to-use');
 
     try {
         const content = chunk(json, columns).map((row) => generateRow(columns, row));
@@ -52,10 +52,11 @@ const generateRow = (columns, row) => {
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
             section: 'data-section',
-            path: path2,
+            path: fileToUsePath,
         });
     } catch (error) {
         core.setFailed(JSON.stringify(error));
+        console.log(error);
     }
 })();
 
@@ -5531,6 +5532,7 @@ var ReadmeBox = /*#__PURE__*/function () {
     this.repo = opts.repo;
     this.token = opts.token;
     this.branch = opts.branch || 'master';
+    this.path = opts.path || core.getInput('file-to-use');
     this.request = request.request.defaults({
       headers: {
         authorization: "token " + this.token
@@ -5572,11 +5574,11 @@ var ReadmeBox = /*#__PURE__*/function () {
     try {
       var _this2 = this;
 
-      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/profiles.md?ref=:ref', {
+      return Promise.resolve(_this2.request('GET /repos/:owner/:repo/contents/:file?ref=:ref', {
         owner: _this2.owner,
         repo: _this2.repo,
         ref: _this2.branch,
-        //file: core.getInput('file-to-use')
+        file: core.getInput('file-to-use')
       })).then(function (_ref2) {
         var data = _ref2.data;
         // The API returns the blob as base64 encoded, we need to decode it
@@ -5585,7 +5587,7 @@ var ReadmeBox = /*#__PURE__*/function () {
         return {
           content: decoded,
           sha: data.sha,
-          path: data.path
+          path: data.path,
         };
       });
     } catch (e) {
@@ -5596,14 +5598,14 @@ var ReadmeBox = /*#__PURE__*/function () {
   _proto.updateReadme = function updateReadme(opts) {
     try {
       var _this4 = this;
-      //const path_to_use = core.getInput('json-file-path');
+      const filePath = core.getInput('file-to-use');
 
       return Promise.resolve(_this4.request('PUT /repos/:owner/:repo/contents/:path', {
         owner: _this4.owner,
         repo: _this4.repo,
         content: Buffer.from(opts.content).toString('base64'),
-        path: opts.path || 'profiles.md',
-        message: opts.message || 'Updating the `profiles.md` file',//`Updating the \`${path_to_use}\`\ file`,
+        path: opts.path || core.getInput('file-to-use'),
+        message: opts.message || `Updating the \`${filePath}\`\ file`,
         sha: opts.sha,
         branch: opts.branch || 'master'
       }));
@@ -5661,7 +5663,7 @@ exports.ReadmeBox = ReadmeBox;
 
 "use strict";
 var __webpack_unused_export__;
-__webpack_unused_export__ = ({value:!0});var e=__webpack_require__(234);exports.ReadmeBox=function(){function t(t){this.owner=t.owner,this.repo=t.repo,this.token=t.token,this.branch=t.branch||"master",this.request=e.request.defaults({headers:{authorization:"token "+this.token}})}t.updateSection=function(e,n){try{var r=new t(n);return Promise.resolve(r.getReadme()).then((function(t){var o=t.sha,s=t.path,a=r.replaceSection({section:n.section,oldContents:t.content,newContents:e});return r.updateReadme({content:a,message:n.message,branch:n.branch,sha:o,path:s})}))}catch(e){return Promise.reject(e)}};var n=t.prototype;return n.getReadme=function(){try{return Promise.resolve(this.request("GET /repos/:owner/:repo/readme",{owner:this.owner,repo:this.repo,ref:this.branch})).then((function(e){var t=e.data;return{content:Buffer.from(t.content,"base64").toString("utf8"),sha:t.sha,path:t.path}}))}catch(e){return Promise.reject(e)}},n.updateReadme=function(e){try{return Promise.resolve(this.request("PUT /repos/:owner/:repo/contents/:path",{owner:this.owner,repo:this.repo,content:Buffer.from(e.content).toString("base64"),path:e.path||"profiles.md",message:e.message||"Updating the `profiles.md` file",sha:e.sha,branch:e.branch||"master"}))}catch(e){return Promise.reject(e)}},n.getSection=function(e,t){var n,r=this.createRegExp(e),o=t.match(r.regex);return null==o||null===(n=o.groups)||void 0===n?void 0:n.content},n.replaceSection=function(e){var t=this.createRegExp(e.section),n=t.regex,r=t.start,o=t.end;if(!n.test(e.oldContents))throw new Error('Contents do not contain start/end comments for section "'+e.section+'"');return e.oldContents.replace(n,r+"\n"+e.newContents+"\n"+o)},n.createRegExp=function(e){var t="\x3c!--START_SECTION:"+e+"--\x3e",n="\x3c!--END_SECTION:"+e+"--\x3e";return{regex:new RegExp(t+"\n(?:(?<content>[\\s\\S]+)\n)?"+n),start:t,end:n}},t}();
+__webpack_unused_export__ = ({value:!0});var e=__webpack_require__(234);exports.ReadmeBox=function(){function t(t){this.owner=t.owner,this.repo=t.repo,this.token=t.token,this.path=t.path,this.branch=t.branch||"master",this.request=e.request.defaults({headers:{authorization:"token "+this.token}})}t.updateSection=function(e,n){try{var r=new t(n);return Promise.resolve(r.getReadme()).then((function(t){var o=t.sha,s=t.path,a=r.replaceSection({section:n.section,oldContents:t.content,newContents:e});return r.updateReadme({content:a,message:n.message,branch:n.branch,sha:o,path:s})}))}catch(e){return Promise.reject(e)}};var n=t.prototype;return n.getReadme=function(){try{return Promise.resolve(this.request("GET /repos/:owner/:repo/contents/:file?ref=:ref",{owner:this.owner,repo:this.repo,ref:this.branch,file:this.file})).then((function(e){var t=e.data;return{content:Buffer.from(t.content,"base64").toString("utf8"),sha:t.sha,path:t.path}}))}catch(e){return Promise.reject(e)}},n.updateReadme=function(e){try{return Promise.resolve(this.request("PUT /repos/:owner/:repo/contents/:path",{filePath:core.getInput('file-to-use'),owner:this.owner,repo:this.repo,content:Buffer.from(e.content).toString("base64"),path:e.path||core.getInput('file-to-use'),message:e.message||`Updating the \`${filePath}\`\ file`,sha:e.sha,branch:e.branch||"master"}))}catch(e){return Promise.reject(e)}},n.getSection=function(e,t){var n,r=this.createRegExp(e),o=t.match(r.regex);return null==o||null===(n=o.groups)||void 0===n?void 0:n.content},n.replaceSection=function(e){var t=this.createRegExp(e.section),n=t.regex,r=t.start,o=t.end;if(!n.test(e.oldContents))throw new Error('Contents do not contain start/end comments for section "'+e.section+'"');return e.oldContents.replace(n,r+"\n"+e.newContents+"\n"+o)},n.createRegExp=function(e){var t="\x3c!--START_SECTION:"+e+"--\x3e",n="\x3c!--END_SECTION:"+e+"--\x3e";return{regex:new RegExp(t+"\n(?:(?<content>[\\s\\S]+)\n)?"+n),start:t,end:n}},t}();
 //# sourceMappingURL=readme-box.cjs.production.min.js.map
 
 
