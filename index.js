@@ -44,6 +44,7 @@ const generateRow = (columns, row) => {
             repo: process.env.GITHUB_REPOSITORY.split('/')[1],
             branch: process.env.GITHUB_REF.split('/')[2],
             token: githubToken,
+            section: 'data-section',
             path: fileToUsePath,
         });
     } catch (error) {
